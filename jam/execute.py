@@ -73,10 +73,12 @@ def process_delta(cursor, db_module, delta, master_rec_id, result):
                         params[pk_index] = rec_id
             if params:
                 params = db_module.process_sql_params(params, cursor)
-                i = 0
-                for p in params:
-                    params[i] = escape(params[i])
-                    i = i + 1
+                gen_name = info.get('gen_name')
+                if inserted and not gen_name is None:
+                    i = 0
+                    for p in params:
+                        params[i] = escape(params[i])
+                        i = i + 1
             if command:
                 before = info.get('before_command')
                 if before:
